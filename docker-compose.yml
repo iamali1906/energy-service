@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres" 
+    ports:
+      - "4321:5432" 
+
+  react-app:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - 8000:8000
+  node:
+    build: ./backend
+    container_name: backend
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
